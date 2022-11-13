@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 
 enum SnackBarType { error, info, warning, success }
 
-SnackBar SimpleSnackBar(
-    {required BuildContext buildContext,
-      required String errorText,
-      SnackBarType type = SnackBarType.error,
-      Color backgroundColor = Colors.white,
-      Color textColor = Colors.black,
-      bool displayDismiss = false}) {
+SnackBar simpleSnackBar({required BuildContext buildContext,
+  required String messageText,
+  required SnackBarType snackBarType,
+  Color backgroundColor = Colors.white,
+  Color textColor = Colors.black,
+  bool displayDismiss = false}) {
   return SnackBar(
     behavior: SnackBarBehavior.floating,
     backgroundColor: backgroundColor,
@@ -17,18 +16,19 @@ SnackBar SimpleSnackBar(
       disabledTextColor: Colors.white,
       textColor: Colors.green,
       onPressed: () {
-        displayDismiss ?? ScaffoldMessenger.of(buildContext).hideCurrentSnackBar();
+        if (!displayDismiss) return;
+        ScaffoldMessenger.of(buildContext).hideCurrentSnackBar();
       },
     ),
     content: Row(
       children: [
-        _getIcon(type: type),
+        _getIcon(type: snackBarType),
         const SizedBox(
           width: 10,
         ),
         Flexible(
           child: Text(
-            errorText,
+            messageText,
             maxLines: 4,
             style: TextStyle(color: textColor),
           ),
